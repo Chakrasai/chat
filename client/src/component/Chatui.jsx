@@ -1,13 +1,14 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useParams } from 'react-router-dom';
 import { io } from 'socket.io-client';
 
 export function Chatui() {
-  const { id } = useParams(); // Capture the dynamic room ID
+  const { id } = useParams();
   const [messages, setMessages] = useState([]);
   const [message, setMessage] = useState("");
   const [username, setUsername] = useState("");
   const [socket, setSocket] = useState(null);
+  const messagesEndRef = useRef(null);
 
   useEffect(() => {
     async function fetchUser() {
@@ -45,7 +46,6 @@ export function Chatui() {
       setSocket(newSocket);
       newSocket.emit('joinRoom', { roomID: id, username });
 
-      // Listen for incoming messages
       newSocket.on('message', (msg) => {
         setMessages((prevMessages) => [...prevMessages, msg]);
       });
@@ -63,31 +63,38 @@ export function Chatui() {
     }
   };
 
-  return (
-    <div className="min-h-screen bg-gray-100 flex flex-col items-center justify-center">
-      <div className="w-full max-w-2xl bg-white rounded-lg shadow-lg p-6">
-        <h1 className="text-2xl font-bold mb-4">Room: {id}</h1>
+  useEffect(() => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messages]);
 
-        <div className="h-64 overflow-y-auto border border-gray-300 rounded-lg p-3 space-y-2 mb-4">
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-blue-100 flex flex-col items-center justify-center py-6">
+      <div className="w-full max-w-4xl bg-white rounded-3xl shadow-2xl p-8">
+        <h1 className="text-3xl font-bold mb-8 text-center text-gray-800">Room: {id}</h1>
+
+        <div className="h-80 overflow-y-auto border border-gray-200 rounded-2xl p-4 flex flex-col space-y-2"> {/* space-y-2 for message spacing */}
           {messages.map((msg, index) => (
-            <div key={index} className="bg-gray-200 p-2 rounded-lg">
-              <span className="font-bold text-blue-600 mr-2">{msg.sender.username}:</span>
-              <span>{msg.content}</span>
+            <div key={index} className="bg-white p-3 rounded-xl shadow-sm break-words w-full max-w-full"> {/* Changed message background, shadow */}
+              <div className="flex items-start">
+                <span className="font-semibold text-blue-700 mr-3">{msg.sender.username}:</span>
+                <span className="break-words overflow-hidden text-gray-700">{msg.content}</span>  {/* Improved text color */}
+              </div>
             </div>
           ))}
+          <div ref={messagesEndRef} />
         </div>
 
-        <div className="flex">
+        <div className="flex space-x-3 mt-6"> {/* mt-6 for spacing from messages */}
           <input
             type="text"
             value={message}
             onChange={(e) => setMessage(e.target.value)}
-            className="flex-1 border rounded-lg px-4 py-2 mr-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="flex-1 border rounded-xl px-5 py-3 focus:outline-none focus:ring-2 focus:ring-blue-400 text-gray-700"
             placeholder="Type your message..."
           />
           <button
             onClick={sendMessage}
-            className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600"
+            className="bg-blue-500 text-white px-6 py-3 rounded-xl hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400 font-semibold shadow-md"
           >
             Send
           </button>
