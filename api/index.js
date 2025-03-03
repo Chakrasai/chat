@@ -6,6 +6,8 @@ const cookieParser = require('cookie-parser')
 const jwt = require('jsonwebtoken')
 const { error } = require('console')
 const app = express()
+const auth = require('./auth')
+
 
 //real time communication sockets 
 const {Server} = require('socket.io')
@@ -24,6 +26,7 @@ const User = require('./models/user')
 const room = require('./models/chatcreation')
 const chat = require('./models/Chatmodel')
 const msg = require('./models/Messagemodel')
+
 
 dotenv.config()
 
@@ -209,6 +212,18 @@ app.get('/chat/:roomId', async (req, res) => {
     return res.status(500).json({ message: "Internal Server Error" });
   }
 });
+
+app.get('/rooms', auth,async (req, res) => {
+  try{
+    const room = await chat.find({users:req.user.id});
+    return res.json(room)
+  }
+  catch(err){
+    console.error("Error fetching rooms:", err);
+    res.status(500).json({ message: "Internal Server Error" });
+  }
+});
+
 
 
 server.listen(3000,()=>{

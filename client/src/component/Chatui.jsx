@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useParams } from 'react-router-dom';
 import { io } from 'socket.io-client';
-
+import Sidebar from './Sidebar';
 export function Chatui() {
   const { id } = useParams();
   const [messages, setMessages] = useState([]);
@@ -17,6 +17,7 @@ export function Chatui() {
         if (res.ok) {
           const data = await res.json();
           setUsername(data.username);
+          console.log(data.username)
         }
       } catch (err) {
         console.error('Error fetching user:', err);
@@ -68,38 +69,42 @@ export function Chatui() {
   }, [messages]);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-blue-100 flex flex-col items-center justify-center py-6">
-      <div className="w-full max-w-4xl bg-white rounded-3xl shadow-2xl p-8">
-        <h1 className="text-3xl font-bold mb-8 text-center text-gray-800">Room: {id}</h1>
+    <>
+      <div className='flex'>
+        <Sidebar />
+        <div className="flex-1 min-h-screen bg-gradient-to-br from-blue-50 to-blue-100 flex flex-col items-center justify-center py-6">
+          <div className="w-full max-w-4xl bg-white rounded-3xl shadow-2xl p-8">
+            <h1 className="text-3xl font-bold mb-8 text-center text-gray-800">Room: {id}</h1>
 
-        <div className="h-80 overflow-y-auto border border-gray-200 rounded-2xl p-4 flex flex-col space-y-2"> {/* space-y-2 for message spacing */}
-          {messages.map((msg, index) => (
-            <div key={index} className="bg-white p-3 rounded-xl shadow-sm break-words w-full max-w-full"> {/* Changed message background, shadow */}
-              <div className="flex items-start">
-                <span className="font-semibold text-blue-700 mr-3">{msg.sender.username}:</span>
-                <span className="break-words overflow-hidden text-gray-700">{msg.content}</span>  {/* Improved text color */}
-              </div>
+            <div className="h-100 overflow-y-auto border border-gray-500 rounded-2xl p-4 flex flex-col space-y-2">
+              {messages.map((msg, index) => (
+                <div key={index} className="bg-white p-3 rounded-xl shadow-sm break-words w-full max-w-full">
+                  <div className="flex items-start">
+                    <span className="font-semibold text-blue-700 mr-3">{msg.sender?.username}:</span>
+                    <span className="break-words overflow-hidden text-gray-700">{msg.content}</span>
+                  </div>
+                </div>
+              ))}
+              <div ref={messagesEndRef} />
             </div>
-          ))}
-          <div ref={messagesEndRef} />
-        </div>
 
-        <div className="flex space-x-3 mt-6"> {/* mt-6 for spacing from messages */}
-          <input
-            type="text"
-            value={message}
-            onChange={(e) => setMessage(e.target.value)}
-            className="flex-1 border rounded-xl px-5 py-3 focus:outline-none focus:ring-2 focus:ring-blue-400 text-gray-700"
-            placeholder="Type your message..."
-          />
-          <button
-            onClick={sendMessage}
-            className="bg-blue-500 text-white px-6 py-3 rounded-xl hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400 font-semibold shadow-md"
-          >
-            Send
-          </button>
+            <div className="flex space-x-3 mt-6">
+              <input
+                type="text"
+                value={message}
+                onChange={(e) => setMessage(e.target.value)}
+                className="flex-1 border rounded-xl px-5 py-3 focus:outline-none focus:ring-2 focus:ring-blue-400 text-gray-700"
+                placeholder="Type your message..." />
+              <button
+                onClick={sendMessage}
+                className="bg-blue-500 text-white px-6 py-3 rounded-xl hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400 font-semibold shadow-md"
+              >
+                Send
+              </button>
+            </div>
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }
