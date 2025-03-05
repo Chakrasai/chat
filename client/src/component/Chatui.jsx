@@ -17,7 +17,6 @@ export function Chatui() {
         if (res.ok) {
           const data = await res.json();
           setUsername(data.username);
-          console.log(data.username)
         }
       } catch (err) {
         console.error('Error fetching user:', err);
@@ -77,16 +76,27 @@ export function Chatui() {
             <h1 className="text-3xl font-bold mb-8 text-center text-gray-800">Room: {id}</h1>
 
             <div className="h-100 overflow-y-auto border border-gray-500 rounded-2xl p-4 flex flex-col space-y-2">
-              {messages.map((msg, index) => (
-                <div key={index} className="bg-white p-3 rounded-xl shadow-sm break-words w-full max-w-full">
-                  <div className="flex items-start">
-                    <span className="font-semibold text-blue-700 mr-3">{msg.sender?.username}:</span>
+            {messages.map((msg, index) => (
+              <div
+                key={index}
+                className={`p-3 rounded-xl shadow-sm break-words min-w-[150px] max-w-[75%] w-fit ${
+                  username === msg.sender?.username ? "self-end bg-green-300" : "self-start bg-purple-200"
+                }`}
+              >
+                <div className="flex items-start">
+                  {username === msg.sender?.username ? (
                     <span className="break-words overflow-hidden text-gray-700">{msg.content}</span>
-                  </div>
+                  ) : (
+                    <>
+                      <span className="font-semibold text-blue-700 mr-3">{msg.sender?.username}:</span>
+                      <span className="break-words overflow-hidden text-gray-700">{msg.content}</span>
+                    </>
+                  )}
                 </div>
-              ))}
-              <div ref={messagesEndRef} />
-            </div>
+              </div>
+            ))}
+            <div ref={messagesEndRef} />
+          </div>
 
             <div className="flex space-x-3 mt-6">
               <input
