@@ -4,7 +4,11 @@ const { Schema, model } = mongoose;
 const ChatSchema = new Schema({
     roomID: { type: String, required: true, unique: true }, 
     users: [{ type: Schema.Types.ObjectId, ref: 'User' }],
-    messages: [{ type: Schema.Types.ObjectId, ref: 'Message' }]
+    messages: [{ 
+        type: Schema.Types.ObjectId, 
+        ref: 'Message',
+        expireAfterSeconds: 172800 
+    }]
 }, { timestamps: true });
 
 const ChatModel = model('Chat', ChatSchema);

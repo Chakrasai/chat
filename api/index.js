@@ -145,36 +145,32 @@ app.post('/register', async (req, res) => {
   });
   
   app.post('/createchat', async (req, res) => {
-    let { RoomID } = req.body; // Extracting RoomID from request
-    if (!RoomID) {
-      return res.status(400).json({ message: 'RoomID is required' });
+    const { roomID } = req.body; // Extracting roomID from request
+    if (!roomID) {
+      return res.status(400).json({ message: 'roomID is required' });
     }
     try {
-      let roomexist = await room.findOne({ roomID: RoomID }); // Using correct field name
-      if (roomexist) {
+      const roomExist = await chat.findOne({ roomID }); // Using correct field name
+      if (roomExist) {
         return res.status(400).json({ message: 'Room already exists' });
       }
-
-      await room.create({ roomID: RoomID }); // Correct field name here
-
-      const newChat = await chat.create({ roomID: RoomID, users: [], messages: [] });
-
+      const newChat = await chat.create({ roomID, users: [], messages: [] });
+  
       console.log("New room is created and chat created.");
       return res.status(201).json({ message: 'Room created successfully', chat: newChat });
     } catch (err) {
       console.error("Room Creation Error:", err.message);
-      return res.status(500).json({ message: "Internal Server Error" });
+      return res.status(500).json({ message: "Internal Server Error", error: err.message });
     }
-});
-
-
+  });
+  
 // Join Chat
 app.post('/joinchat', async (req, res) => {
     const { roomID, username } = req.body;
     if (!roomID || !username) return res.status(400).json({ message: 'RoomID and username are required' });
 
     try {
-        let existingRoom = await room.findOne({ roomID });
+        let existingRoom = await chat.findOne({ roomID });
         if (!existingRoom) return res.status(404).json({ message: "Room does not exist" });
 
         let user = await User.findOne({ username });
