@@ -7,7 +7,7 @@ const ChatSchema = new Schema({
     messages: [{ 
         type: Schema.Types.ObjectId, 
         ref: 'Message',
-        expireAfterSeconds: 172800 
+        // expiresAt: { type: Date, default: () => new Date(Date.now() + 2 * 24 * 60 * 60 * 1000), index: { expires: 0 } } 
     }]
 }, { timestamps: true });
 

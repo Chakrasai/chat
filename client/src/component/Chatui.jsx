@@ -2,6 +2,8 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useParams } from 'react-router-dom';
 import { io } from 'socket.io-client';
 import Sidebar from './Sidebar';
+import Chatnav from './Chatnav';
+
 export function Chatui() {
   const { id } = useParams();
   const [messages, setMessages] = useState([]);
@@ -69,6 +71,8 @@ export function Chatui() {
 
   return (
     <>
+
+      <Chatnav/>
       <div className='flex'>
         <Sidebar />
         <div className="flex-1 min-h-screen bg-gradient-to-br from-blue-50 to-blue-100 flex flex-col items-center justify-center py-6">
@@ -115,6 +119,7 @@ export function Chatui() {
           </div>
         </div>
       </div>
+
     </>
   );
 }

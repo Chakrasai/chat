@@ -6,8 +6,8 @@ import Choosechat from './component/Choose';
 import { Createchat } from './component/chatpagehandle';
 import { Joinchat } from './component/chatpagehandle';
 import { Chatui } from './component/Chatui';
+// import {NotFound} from './component/NotFound';
 function App() {
-
   return (
     <>
       <Routes>
@@ -16,6 +16,7 @@ function App() {
         <Route path='/createchat' element={<Createchat />} />
         <Route path='/joinchat' element={<Joinchat />} />
         <Route path='/chat/:id' element={<Chatui />} />
+        {/* <Route path='/NotFound' element={<NotFound />} /> */}
       </Routes>
     </>
   )
