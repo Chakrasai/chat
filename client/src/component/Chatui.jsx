@@ -73,7 +73,7 @@ export function Chatui() {
     <>
 
       <Chatnav/>
-      <div className='flex'>
+      <div className='flex bg-gradient-to-br from-blue-100 to-cyan-200'>
         <Sidebar />
         <div className="flex-1 min-h-screen bg-gradient-to-br from-blue-50 to-blue-100 flex flex-col items-center justify-center py-6">
           <div className="w-full max-w-4xl bg-white rounded-3xl shadow-2xl p-8">
