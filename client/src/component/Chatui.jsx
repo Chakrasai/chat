@@ -16,6 +16,7 @@ export function Chatui() {
     async function fetchUser() {
       try {
         const res = await fetch('http://localhost:3000/user', { credentials: 'include' });
+        // const res = await fetch('http://localhost:3000/user', { credentials: 'include' });
         if (res.ok) {
           const data = await res.json();
           setUsername(data.username);
@@ -31,6 +32,7 @@ export function Chatui() {
     async function fetchMessages() {
       try {
         const res = await fetch(`http://localhost:3000/chat/${id}`, { credentials: 'include' });
+        // const res = await fetch(`http://localhost:3000/chat/${id}`, { credentials: 'include' });
         if (res.ok) {
           const data = await res.json();
           setMessages(data);
@@ -45,6 +47,7 @@ export function Chatui() {
   useEffect(() => {
     if (username) {
       const newSocket = io('http://localhost:3000', { withCredentials: true });
+      // const newSocket = io('http://localhost:3000', { withCredentials: true });
       setSocket(newSocket);
       newSocket.emit('joinRoom', { roomID: id, username });
 

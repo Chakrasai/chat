@@ -23,7 +23,7 @@ const io = new Server(server,{
 
 //data models
 const User = require('./models/user')
-const room = require('./models/chatcreation')
+const room = require('./models/Chatcreation')
 const chat = require('./models/Chatmodel')
 const msg = require('./models/Messagemodel')
 
@@ -33,6 +33,7 @@ dotenv.config()
 app.use(cors({ 
     credentials: true, 
     origin: 'http://localhost:5173' 
+    // origin: 'http://localhost:5173' 
 }));
 app.use(express.json())
 app.use(cookieParser())

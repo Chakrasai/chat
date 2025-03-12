@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { io } from 'socket.io-client';
 
 const socket = io('http://localhost:3000', { withCredentials: true });
+// const socket = io('http://localhost:3000', { withCredentials: true });
 
 // Create Chat Component
 export function Createchat() {
@@ -17,6 +18,7 @@ export function Createchat() {
     e.preventDefault();
     try {
       const response = await fetch('http://localhost:3000/createchat', {
+      // const response = await fetch('http://localhost:3000/createchat', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ roomID: formData.roomID }),
@@ -100,6 +102,7 @@ export function Joinchat() {
     async function fetchUser() {
       try {
         const res = await fetch('http://localhost:3000/user', { credentials: 'include' });
+        // const res = await fetch('http://localhost:3000/user', { credentials: 'include' });
         if (res.ok) {
           const data = await res.json();
           setUsername(data.username);
@@ -119,6 +122,7 @@ export function Joinchat() {
     e.preventDefault();
     try {
       const response = await fetch('http://localhost:3000/joinchat', {
+      // const response = await fetch('http://localhost:3000/joinchat', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ roomID: formData.roomID, username }),

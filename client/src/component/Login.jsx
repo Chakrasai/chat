@@ -22,6 +22,7 @@ function Login() {
     ev.preventDefault();
     try {
       const response = await fetch('http://localhost:3000/login', {
+      // const response = await fetch('http://localhost:3000/login', {
         method: 'POST',
         body: JSON.stringify({ username: formData.username, password: formData.password }),
         headers: { 'Content-Type': 'application/json' },
@@ -43,6 +44,7 @@ function Login() {
     ev.preventDefault();
     try {
       const response = await fetch('http://localhost:3000/register', {
+      // const response = await fetch('http://localhost:3000/register', {
         method: 'POST',
         body: JSON.stringify({ username: formData.username, email: formData.email, password: formData.password }),
         headers: { 'Content-Type': 'application/json' },

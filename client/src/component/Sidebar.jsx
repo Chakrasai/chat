@@ -9,6 +9,7 @@ const Sidebar = () => {
     async function fetchRooms() {
       try {
         const res = await fetch("http://localhost:3000/rooms", { credentials: "include" });
+        // const res = await fetch("http://localhost:3000/rooms", { credentials: "include" });
         if (res.ok) {
           const data = await res.json();
           setRooms(data);

@@ -6,6 +6,7 @@ function Choosechat() {
     const navigate = useNavigate();
     useEffect(()=>{
         fetch('http://localhost:3000/user',{
+        // fetch('http://localhost:3000/user',{
             method:"GET",
             credentials:"include",
         })
