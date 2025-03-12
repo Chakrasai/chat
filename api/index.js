@@ -15,7 +15,7 @@ const http = require('http')
 const server = http.createServer(app);
 const io = new Server(server,{
   cors:{
-    origin:"http://localhost:5173",
+    origin:process.env.CLIENT_ORIGIN,
     methods:['GET','POST'],
     credentials:true
   }
@@ -32,8 +32,7 @@ dotenv.config()
 
 app.use(cors({ 
     credentials: true, 
-    origin: 'http://localhost:5173' 
-    // origin: 'http://localhost:5173' 
+    origin: process.env.CLIENT_ORIGIN, 
 }));
 app.use(express.json())
 app.use(cookieParser())
@@ -224,6 +223,6 @@ app.get('/rooms', auth,async (req, res) => {
 
 
 
-server.listen(3000,()=>{
-    console.log('port running on 3000')
+server.listen(process.env.PORT,()=>{
+    console.log(`port running on ${process.env.PORT}`)
 })
