@@ -1,7 +1,22 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
+const apiurl = import.meta.env.VITE_API_ORIGIN;
 
 function Navbar({ username }) {
   const initials = username ? username.slice(0, 2).toUpperCase() : "ER";
+  const navigate = useNavigate();
+  const logout = async () => {
+    try{
+      const response = await fetch(`${apiurl}/logout`, { credentials: 'include' });
+      
+      if(response.ok){
+        navigate('/');
+      }
+    }
+    catch(err){
+      console.error('Error logging out:',err)
+    }
+  }
 
   return (
     <nav className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-6 py-4 flex items-center justify-between shadow-xl">
@@ -29,10 +44,16 @@ function Navbar({ username }) {
           {initials}
         </div>
 
-        {/* Tooltip on Hover */}
-        <span className="absolute -bottom-10 left-1/2 transform -translate-x-1/2 opacity-0 group-hover:opacity-100 transition duration-300 bg-gray-800 text-white text-xs py-1 px-3 rounded-md shadow-lg">
-          {username || "Guest"}
-        </span>
+        {/* Dropdown on Hover */}
+        <div className="absolute -bottom-16 left-1/2 transform -translate-x-1/2 opacity-0 group-hover:opacity-100 transition duration-300 bg-gray-800 text-white text-sm py-2 px-4 rounded-md shadow-lg">
+          <p className="mb-2">{username || "Guest"}</p>
+          <button
+            onClick={logout}
+            className="bg-red-500 hover:bg-red-600 text-white py-1 px-3 rounded-md"
+          >
+            Logout
+          </button>
+        </div>
       </div>
     </nav>
   );

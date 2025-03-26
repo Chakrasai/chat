@@ -131,6 +131,11 @@ app.post('/register', async (req, res) => {
     }
   });
 
+  app.get('/logout',async (req,res)=>{
+    res.clearCookie('token')
+    return res.json({message:"Logged out successfully"})
+  })
+
   app.get('/user', (req, res) => {
     const token = req.cookies.token;
     if (!token) {
