@@ -2,8 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { io } from 'socket.io-client';
 
-const socket = io('http://localhost:3000', { withCredentials: true });
-// const socket = io('http://localhost:3000', { withCredentials: true });
+const apiurl = import.meta.env.VITE_API_ORIGIN;
+
+const socket = io(`${apiurl}`, { withCredentials: true });
 
 // Create Chat Component
 export function Createchat() {
@@ -17,8 +18,7 @@ export function Createchat() {
   async function createroomSubmit(e) {
     e.preventDefault();
     try {
-      const response = await fetch('http://localhost:3000/createchat', {
-      // const response = await fetch('http://localhost:3000/createchat', {
+      const response = await fetch(`${apiurl}/createchat`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ roomID: formData.roomID }),
@@ -101,7 +101,7 @@ export function Joinchat() {
   useEffect(() => {
     async function fetchUser() {
       try {
-        const res = await fetch('http://localhost:3000/user', { credentials: 'include' });
+        const res = await fetch(`${apiurl}/user`, { credentials: 'include' });
         // const res = await fetch('http://localhost:3000/user', { credentials: 'include' });
         if (res.ok) {
           const data = await res.json();
@@ -121,8 +121,7 @@ export function Joinchat() {
   async function joinchatSubmit(e) {
     e.preventDefault();
     try {
-      const response = await fetch('http://localhost:3000/joinchat', {
-      // const response = await fetch('http://localhost:3000/joinchat', {
+      const response = await fetch(`${apiurl}/joinchat`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ roomID: formData.roomID, username }),

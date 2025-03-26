@@ -4,6 +4,8 @@ import { io } from 'socket.io-client';
 import Sidebar from './Sidebar';
 import Chatnav from './Chatnav';
 
+const apiurl = import.meta.env.VITE_API_ORIGIN;
+
 export function Chatui() {
   const { id } = useParams();
   const [messages, setMessages] = useState([]);
@@ -15,8 +17,7 @@ export function Chatui() {
   useEffect(() => {
     async function fetchUser() {
       try {
-        const res = await fetch('http://localhost:3000/user', { credentials: 'include' });
-        // const res = await fetch('http://localhost:3000/user', { credentials: 'include' });
+        const res = await fetch(`${apiurl}/user`, { credentials: 'include' });
         if (res.ok) {
           const data = await res.json();
           setUsername(data.username);
@@ -31,8 +32,7 @@ export function Chatui() {
   useEffect(() => {
     async function fetchMessages() {
       try {
-        const res = await fetch(`http://localhost:3000/chat/${id}`, { credentials: 'include' });
-        // const res = await fetch(`http://localhost:3000/chat/${id}`, { credentials: 'include' });
+        const res = await fetch(`${apiurl}/chat/${id}`, { credentials: 'include' });
         if (res.ok) {
           const data = await res.json();
           setMessages(data);
@@ -46,8 +46,7 @@ export function Chatui() {
 
   useEffect(() => {
     if (username) {
-      const newSocket = io('http://localhost:3000', { withCredentials: true });
-      // const newSocket = io('http://localhost:3000', { withCredentials: true });
+      const newSocket = io(`${apiurl}`, { withCredentials: true });
       setSocket(newSocket);
       newSocket.emit('joinRoom', { roomID: id, username });
 

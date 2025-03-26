@@ -1,22 +1,24 @@
 import React, { useEffect, useState } from 'react'
 import Navbar from './Navbar';
 import { Navigate, useNavigate } from 'react-router-dom';
+
+const apiurl = import.meta.env.VITE_API_ORIGIN;
+
 function Choosechat() {
     const [user,setuser] = useState(null);
     const navigate = useNavigate();
     useEffect(()=>{
-        fetch('http://localhost:3000/user',{
-        // fetch('http://localhost:3000/user',{
-            method:"GET",
-            credentials:"include",
+        fetch(`${apiurl}/user`, {
+            method: "GET",
+            credentials: "include",
         })
-        .then((res)=>res.json())
-        .then((data)=>{
-            if(data.username){
-                setuser(data.username);
+        .then((res) => res.json())
+        .then((data) => {
+            if (data.username) {
+          setuser(data.username);
             }
         })
-        .catch((err)=>console.log("not logged in",err));
+        .catch((err) => console.log("not logged in", err));
     },[])
 
     const handlecreate = (e)=>{

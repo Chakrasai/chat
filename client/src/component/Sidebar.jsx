@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 
+const apiurl = import.meta.env.VITE_API_ORIGIN;
+
 const Sidebar = () => {
   const [rooms, setRooms] = useState([]);
   const { id: activeRoom } = useParams(); // Get the current room ID from URL
@@ -8,8 +10,7 @@ const Sidebar = () => {
   useEffect(() => {
     async function fetchRooms() {
       try {
-        const res = await fetch("http://localhost:3000/rooms", { credentials: "include" });
-        // const res = await fetch("http://localhost:3000/rooms", { credentials: "include" });
+        const res = await fetch(`${apiurl}/rooms`, { credentials: "include" });
         if (res.ok) {
           const data = await res.json();
           setRooms(data);
