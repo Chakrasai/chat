@@ -1,5 +1,6 @@
-const express = require('express')
 const dotenv = require('dotenv')
+dotenv.config() 
+const express = require('express')
 const cors = require('cors')
 const mongoose = require('mongoose')
 const cookieParser = require('cookie-parser')
@@ -15,7 +16,7 @@ const http = require('http')
 const server = http.createServer(app);
 const io = new Server(server,{
   cors:{
-    origin: 'http://localhost:5173',
+    origin:'http://localhost:5173',
     methods:['GET','POST'],
     credentials:true
   }
@@ -28,7 +29,6 @@ const chat = require('./models/Chatmodel')
 const msg = require('./models/Messagemodel')
 
 
-dotenv.config()
 
 app.use(cors({ 
     credentials: true, 
