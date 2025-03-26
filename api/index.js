@@ -23,8 +23,7 @@ const io = new Server(server,{
 })
 
 //data models
-const User = require('./models/user')
-const room = require('./models/Chatcreation')
+const User = require('./models/User')
 const chat = require('./models/Chatmodel')
 const msg = require('./models/Messagemodel')
 
