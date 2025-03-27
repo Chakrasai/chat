@@ -1,0 +1,45 @@
+
+services:
+  mongo:
+    image: mongo:5.0
+    container_name: mongo
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+    networks:
+      - chat-network
+
+  backend:
+    build:
+      context: ./api
+    container_name: api_chat
+    ports:
+      - "3000:3000"
+    environment:
+      MONGO_URI: mongodb+srv://chakrasai:chat@chat.zfl5p.mongodb.net/?retryWrites=true&w=majority&appName=chat
+      JWT_SECRET: chat
+      CLIENT_ORIGIN: https://chat-tawny-two.vercel.app
+    depends_on:
+      - mongo
+    networks:
+      - chat-network
+
+  frontend:
+    build:
+      context: ./client
+    container_name: client_chat
+    ports:
+      - "5173:5173"
+    environment:
+      VITE_API_ORIGIN: https://chatbackend-v9dw.onrender.com
+    depends_on:
+      - backend
+    networks:
+      - chat-network
+
+volumes:
+  mongo-data:
+
+networks:
+  chat-network:
