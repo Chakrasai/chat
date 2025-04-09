@@ -1,19 +1,19 @@
-#use Node.js as base image 
-FROM node:18
+# use Node.js as base image 
+# FROM node:18-slim
 
-#set working directory
-WORKDIR /app
+# #set working directory
+# WORKDIR /app
 
-#copy package.json and package-lock.json
-COPY package*json ./
+# #copy package.json and package-lock.json
+# COPY package*json ./
 
-#install dependencies
-RUN npm ci
+# #install dependencies
+# RUN npm ci
 
-#copy source code
-COPY . .
+# #copy source code
+# COPY . .
 
-#expose port
-EXPOSE 5173
+# #expose port
+# EXPOSE 5173
 
-CMD ["npm", "run", "dev"]
+# CMD ["npm", "run", "dev"]
